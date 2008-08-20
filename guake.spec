@@ -16,6 +16,10 @@ BuildRequires:	python-vte
 Requires(post,postun):	desktop-file-utils
 Requires(post,postun):	scrollkeeper
 Requires(post,preun):	GConf2
+Requires:	notification-daemon
+Requires:	python-gnome-gconf
+Requires:	python-pygtk-glade
+Requires:	python-pynotify
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
