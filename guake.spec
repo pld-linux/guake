@@ -1,8 +1,8 @@
 Summary:	guake - a drop-down terminal
-Summary(pl.UTF-8):	guake- wyskakujący terminal
+Summary(pl.UTF-8):	guake - wyskakujący terminal
 Name:		guake
 Version:	0.3.1
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		X11/Applications
 Source0:	http://guake-terminal.org/releases/0.3.1/%{name}-%{version}.tar.gz
@@ -16,7 +16,7 @@ BuildRequires:	python-vte
 Requires(post,postun):	desktop-file-utils
 Requires(post,postun):	scrollkeeper
 Requires(post,preun):	GConf2
-Requires:	notification-daemon
+Requires:	dbus(org.freedesktop.Notifications)
 Requires:	python-gnome-gconf
 Requires:	python-pygtk-glade
 Requires:	python-pynotify
