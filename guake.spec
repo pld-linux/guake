@@ -2,7 +2,7 @@ Summary:	guake - a drop-down terminal
 Summary(pl.UTF-8):	guake - wyskakujący terminal
 Name:		guake
 Version:	0.3.1
-Release:	2
+Release:	3
 License:	GPL v2+
 Group:		X11/Applications
 Source0:	http://guake-terminal.org/releases/0.3.1/%{name}-%{version}.tar.gz
@@ -11,8 +11,10 @@ URL:		http://guake-terminal.org/
 BuildRequires:	GConf2-devel
 BuildRequires:	autoconf >= 2.53
 BuildRequires:	automake
+BuildRequires:	libtool
 BuildRequires:	python-pygtk-devel
 BuildRequires:	python-vte
+BuildRequires:	sed >= 4.0
 Requires(post,postun):	desktop-file-utils
 Requires(post,postun):	scrollkeeper
 Requires(post,preun):	GConf2
@@ -28,9 +30,17 @@ just need to press a key to invoke him, and press again to hide.
 
 %prep
 %setup -q
+mv po/{ru_RU,ru}.po
+%{__sed} -i -e '/ALL_LINGUAS/s/ru_RU/ru/' configure.ac
 
 %build
-%configure
+%{__libtoolize}
+%{__aclocal} -I m4
+%{__autoconf}
+%{__autoheader}
+%{__automake}
+%configure \
+	--disable-static
 %{__make}
 
 %install
@@ -39,7 +49,9 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-%find_lang %{name} --all-name
+rm -f $RPM_BUILD_ROOT%{_libdir}/guake/*.la
+
+%find_lang %{name}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
