@@ -1,12 +1,13 @@
 Summary:	guake - a drop-down terminal
 Summary(pl.UTF-8):	guake - wyskakujący terminal
 Name:		guake
-Version:	0.3.1
-Release:	3
+Version:	0.4.0
+Release:	1
 License:	GPL v2+
 Group:		X11/Applications
-Source0:	http://guake-terminal.org/releases/0.3.1/%{name}-%{version}.tar.gz
-# Source0-md5:	ed7af9e0309ba0df08a521b1ef4423ef
+Source0:	http://guake.org/files/%{name}-%{version}.tar.gz
+# Source0-md5:	9e04de9c05c031d763f4c9bdc194223b
+Patch0:		%{name}-desktop.patch
 URL:		http://guake-terminal.org/
 BuildRequires:	GConf2-devel
 BuildRequires:	autoconf >= 2.53
@@ -28,10 +29,13 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Guake is a drop-down terminal for Gnome Desktop Environment, so you
 just need to press a key to invoke him, and press again to hide.
 
+%description -l pl.UTF-8
+Guake to wyskakujący terminal dla Gnome, a więc wystarczy nacisnąć
+przycisk aby go wywołać i nacisnąć ponownie by schować.
+
 %prep
 %setup -q
-mv po/{ru_RU,ru}.po
-%{__sed} -i -e '/ALL_LINGUAS/s/ru_RU/ru/' configure.ac
+%patch0 -p1
 
 %build
 %{__libtoolize}
@@ -50,6 +54,10 @@ rm -rf $RPM_BUILD_ROOT
 	DESTDIR=$RPM_BUILD_ROOT
 
 rm -f $RPM_BUILD_ROOT%{_libdir}/guake/*.la
+# fix/update locale names
+rm -r $RPM_BUILD_ROOT%{_datadir}/locale/no_NB/
+install -d $RPM_BUILD_ROOT%{_datadir}/locale/ru/LC_MESSAGES
+mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{ru_RU/LC_MESSAGES/guake.mo,ru/LC_MESSAGES/guake.mo}
 
 %find_lang %{name}
 
