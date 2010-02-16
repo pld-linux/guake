@@ -2,7 +2,7 @@ Summary:	guake - a drop-down terminal
 Summary(pl.UTF-8):	guake - wyskakujący terminal
 Name:		guake
 Version:	0.4.0
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		X11/Applications
 Source0:	http://guake.org/files/%{name}-%{version}.tar.gz
@@ -54,10 +54,10 @@ rm -rf $RPM_BUILD_ROOT
 	DESTDIR=$RPM_BUILD_ROOT
 
 rm -f $RPM_BUILD_ROOT%{_libdir}/guake/*.la
+
 # fix/update locale names
-rm -r $RPM_BUILD_ROOT%{_datadir}/locale/no_NB/
-install -d $RPM_BUILD_ROOT%{_datadir}/locale/ru/LC_MESSAGES
-mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{ru_RU/LC_MESSAGES/guake.mo,ru/LC_MESSAGES/guake.mo}
+mv $RPM_BUILD_ROOT%{_datadir}/locale/{no_NB,nb}
+mv $RPM_BUILD_ROOT%{_datadir}/locale/ru{_RU,}
 
 %find_lang %{name}
 
