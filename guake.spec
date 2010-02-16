@@ -12,9 +12,13 @@ URL:		http://guake-terminal.org/
 BuildRequires:	GConf2-devel
 BuildRequires:	autoconf >= 2.53
 BuildRequires:	automake
+BuildRequires:	gettext-devel
+BuildRequires:	intltool
 BuildRequires:	libtool
+BuildRequires:	pkgconfig
 BuildRequires:	python-pygtk-devel
 BuildRequires:	python-vte
+BuildRequires:	rpm-pythonprov
 BuildRequires:	sed >= 4.0
 Requires(post,postun):	desktop-file-utils
 Requires(post,postun):	scrollkeeper
