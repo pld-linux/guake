@@ -1,19 +1,19 @@
 Summary:	guake - a drop-down terminal
 Summary(pl.UTF-8):	guake - wyskakujący terminal
 Name:		guake
-Version:	0.4.0
-Release:	2
+Version:	0.4.1
+Release:	1
 License:	GPL v2+
 Group:		X11/Applications
 Source0:	http://guake.org/files/%{name}-%{version}.tar.gz
-# Source0-md5:	9e04de9c05c031d763f4c9bdc194223b
+# Source0-md5:	c3bd763f0a7c91cb453c32d8045fa6ca
 Patch0:		%{name}-desktop.patch
 URL:		http://guake-terminal.org/
 BuildRequires:	GConf2-devel
 BuildRequires:	autoconf >= 2.53
 BuildRequires:	automake
 BuildRequires:	gettext-devel
-BuildRequires:	intltool
+BuildRequires:	intltool >= 0.35
 BuildRequires:	libtool
 BuildRequires:	pkgconfig
 BuildRequires:	python-pygtk-devel
@@ -58,10 +58,6 @@ rm -rf $RPM_BUILD_ROOT
 	DESTDIR=$RPM_BUILD_ROOT
 
 rm -f $RPM_BUILD_ROOT%{_libdir}/guake/*.la
-
-# fix/update locale names
-mv $RPM_BUILD_ROOT%{_datadir}/locale/{no_NB,nb}
-mv $RPM_BUILD_ROOT%{_datadir}/locale/ru{_RU,}
 
 %find_lang %{name}
 
