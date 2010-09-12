@@ -3,12 +3,12 @@
 Summary:	guake - a drop-down terminal
 Summary(pl.UTF-8):	guake - wyskakujący terminal
 Name:		guake
-Version:	0.4.1
-Release:	4
+Version:	0.4.2
+Release:	1
 License:	GPL v2+
 Group:		X11/Applications
 Source0:	http://guake.org/files/%{name}-%{version}.tar.gz
-# Source0-md5:	c3bd763f0a7c91cb453c32d8045fa6ca
+# Source0-md5:	1f0feff3bfc15c998147dbf07d9d8a8e
 Patch0:		%{name}-desktop.patch
 URL:		http://guake-terminal.org/
 BuildRequires:	GConf2-devel
@@ -87,6 +87,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/guake
 %{_pixmapsdir}/guake
 %{_desktopdir}/*.desktop
-%{_datadir}/dbus-1/services/org.gnome.Guake.service
+%{_datadir}/dbus-1/services/org.guake.Guake.service
 %{_sysconfdir}/gconf/schemas/guake.schemas
+%{_sysconfdir}/xdg/autostart/guake.desktop
 %{_mandir}/man1/guake.1*
