@@ -1,22 +1,17 @@
-# TODO
-# - package autostart script: /etc/xdg/autostart/guake.desktop
 Summary:	guake - a drop-down terminal
 Summary(pl.UTF-8):	guake - wyskakujący terminal
 Name:		guake
 Version:	0.4.2
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		X11/Applications
 Source0:	http://guake.org/files/%{name}-%{version}.tar.gz
 # Source0-md5:	1f0feff3bfc15c998147dbf07d9d8a8e
 Patch0:		%{name}-desktop.patch
-URL:		http://guake-terminal.org/
+URL:		http://guake.org/
 BuildRequires:	GConf2-devel
-BuildRequires:	autoconf >= 2.53
-BuildRequires:	automake
 BuildRequires:	gettext-devel
 BuildRequires:	intltool >= 0.35
-BuildRequires:	libtool
 BuildRequires:	pkgconfig
 BuildRequires:	python-pygtk-devel
 BuildRequires:	python-vte
@@ -44,13 +39,10 @@ przycisk aby go wywołać i nacisnąć ponownie by schować.
 %patch0 -p1
 
 %build
-%{__libtoolize}
-%{__aclocal} -I m4
-%{__autoconf}
-%{__autoheader}
-%{__automake}
 %configure \
+	--disable-schemas-install \
 	--disable-static
+
 %{__make}
 
 %install
@@ -59,7 +51,7 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-rm -f $RPM_BUILD_ROOT%{_libdir}/guake/*.la
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/guake/*.la
 
 mv $RPM_BUILD_ROOT%{_datadir}/locale/{no,nb}
 
@@ -77,6 +69,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %postun
 %update_desktop_database_postun
+
+%posttrans
+killall -HUP gconfd-2 > /dev/null || :
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
