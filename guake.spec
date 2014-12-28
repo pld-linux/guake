@@ -10,7 +10,7 @@ Source0:	http://guake.org/files/%{name}-%{version}.tar.gz
 Patch0:		%{name}-desktop.patch
 URL:		http://guake.org/
 BuildRequires:	GConf2-devel
-BuildRequires:	gettext-devel
+BuildRequires:	gettext-tools
 BuildRequires:	intltool >= 0.35
 BuildRequires:	pkgconfig
 BuildRequires:	python-pygtk-devel
