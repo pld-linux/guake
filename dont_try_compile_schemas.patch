@@ -1,0 +1,33 @@
+From: Daniel Echeverry <epsilon@debian.org>
+Date: Sun, 7 Nov 2021 17:10:54 -0500
+Subject: Don't try recompile schemas, we do that from postinst script
+
+Forwarded: not-needed
+---
+ guake/guake_app.py | 13 -------------
+ 1 file changed, 13 deletions(-)
+
+diff --git a/guake/guake_app.py b/guake/guake_app.py
+index d524275..c03cde8 100644
+--- a/guake/guake_app.py
++++ b/guake/guake_app.py
+@@ -118,19 +118,6 @@ class Guake(SimpleGladeApp):
+         self.settings = Settings(schema_source)
+         self.accel_group = None
+ 
+-        if (
+-            "schema-version" not in self.settings.general.keys()
+-            or self.settings.general.get_string("schema-version") != guake_version()
+-        ):
+-            log.exception("Schema from old guake version detected, regenerating schema")
+-            try:
+-                try_to_compile_glib_schemas()
+-            except subprocess.CalledProcessError:
+-                log.exception("Schema in non user-editable location, attempting to continue")
+-            schema_source = load_schema()
+-            self.settings = Settings(schema_source)
+-            self.settings.general.set_string("schema-version", guake_version())
+-
+         log.info("Language previously loaded from: %s", LOCALE_DIR)
+ 
+         super().__init__(gladefile("guake.glade"))

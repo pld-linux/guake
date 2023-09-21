@@ -1,29 +1,36 @@
 Summary:	guake - a drop-down terminal
 Summary(pl.UTF-8):	guake - wyskakujący terminal
 Name:		guake
-Version:	0.4.2
-Release:	2
+Version:	3.10
+Release:	1
 License:	GPL v2+
 Group:		X11/Applications
-Source0:	http://guake.org/files/%{name}-%{version}.tar.gz
-# Source0-md5:	1f0feff3bfc15c998147dbf07d9d8a8e
-Patch0:		%{name}-desktop.patch
+Source0:	https://github.com/Guake/guake/archive/%{version}/%{name}-%{version}.tar.gz
+# Source0-md5:	d06eb4b40645f6d71552418102ccc04e
+Patch0:		set_scripts_path.patch
+Patch1:		dont_try_compile_schemas.patch
+Patch2:		dont_use_pip_to_build.patch
+Patch3:		fix_manpage_name.patch
 URL:		http://guake.org/
-BuildRequires:	GConf2-devel
+BuildRequires:	glib2
 BuildRequires:	gettext-tools
 BuildRequires:	intltool >= 0.35
 BuildRequires:	pkgconfig
-BuildRequires:	python-pygtk-devel
-BuildRequires:	python-vte
+BuildRequires:	python3-pygobject3-devel
+BuildRequires:	python3-setuptools
+BuildRequires:	python3-pbr
+BuildRequires:	python3-pip
+BuildRequires:	python3-reno
+BuildRequires:	python3-sphinxcontrib-programoutput
+BuildRequires:	python3-wheel
 BuildRequires:	rpm-pythonprov
 BuildRequires:	sed >= 4.0
 Requires(post,postun):	desktop-file-utils
-Requires(post,postun):	scrollkeeper
-Requires(post,preun):	GConf2
 Requires:	dbus(org.freedesktop.Notifications)
-Requires:	python-gnome-gconf
-Requires:	python-pygtk-glade
-Requires:	python-pynotify
+Requires:	python3-pygobject3
+Requires:	python3-notify2
+Requires:	python3-pbr
+BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -37,24 +44,25 @@ przycisk aby go wywołać i nacisnąć ponownie by schować.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
+%patch2 -p1
+%patch3 -p1
 
 %build
-%configure \
-	--disable-schemas-install \
-	--disable-static
-
 %{__make}
+%{__make} -C docs man
 
 %install
 rm -rf $RPM_BUILD_ROOT
+install -d $RPM_BUILD_ROOT{%{_datadir}/glib-2.0/schemas,%{_mandir}/man1}
 
+PBR_VERSION=%{version} \
+SETUPTOOLS_SCM_PRETEND_VERSION=%{version} \
 %{__make} install \
-	DESTDIR=$RPM_BUILD_ROOT
+	DESTDIR=$RPM_BUILD_ROOT \
+	PREFIX=%{_prefix}
 
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/guake/*.la
-
-mv $RPM_BUILD_ROOT%{_datadir}/locale/{no,nb}
-
+cp -p docs/_build/man/guake.1 $RPM_BUILD_ROOT%{_mandir}/man1
 %find_lang %{name}
 
 %clean
@@ -62,27 +70,18 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 %update_desktop_database
-%gconf_schema_install guake.schemas
-
-%preun
-%gconf_schema_uninstall guake.schemas
 
 %postun
 %update_desktop_database_postun
 
-%posttrans
-killall -HUP gconfd-2 > /dev/null || :
-
 %files -f %{name}.lang
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/*
-%dir %{_libdir}/guake
-%attr(755,root,root) %{_libdir}/guake/*.so
-%{_libdir}/guake/*.py
+%{py3_sitescriptdir}/guake
+%{py3_sitescriptdir}/guake-%{version}-py*.egg-info
 %{_datadir}/guake
-%{_pixmapsdir}/guake
+%{_pixmapsdir}/guake.png
 %{_desktopdir}/*.desktop
-%{_datadir}/dbus-1/services/org.guake.Guake.service
-%{_sysconfdir}/gconf/schemas/guake.schemas
-%{_sysconfdir}/xdg/autostart/guake.desktop
+%{_datadir}/glib-2.0/schemas/org.guake.gschema.xml
 %{_mandir}/man1/guake.1*
+%{_metainfodir}/guake.desktop.metainfo.xml

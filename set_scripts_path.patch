@@ -1,0 +1,19 @@
+From: Daniel Echeverri <epsilon@debian.org>
+Date: Sat, 29 Oct 2022 21:27:51 -0500
+Subject: Add install-scripts path in setup.cfg for install scripts in
+ /usr/bin
+
+Forwarded: not-needed
+---
+ setup.cfg | 3 +++
+ 1 file changed, 3 insertions(+)
+
+--- a/setup.cfg
++++ b/setup.cfg
+@@ -56,3 +56,6 @@
+ 
+ [pep8]
+ max-line-length = 100
++
++[install]
++install-scripts=  /usr/bin
