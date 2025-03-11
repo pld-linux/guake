@@ -2,7 +2,7 @@ Summary:	guake - a drop-down terminal
 Summary(pl.UTF-8):	guake - wyskakujący terminal
 Name:		guake
 Version:	3.10
-Release:	3
+Release:	4
 License:	GPL v2+
 Group:		X11/Applications
 Source0:	https://github.com/Guake/guake/archive/%{version}/%{name}-%{version}.tar.gz
