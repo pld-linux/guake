@@ -12,24 +12,24 @@ Patch1:		dont_try_compile_schemas.patch
 Patch2:		dont_use_pip_to_build.patch
 Patch3:		fix_manpage_name.patch
 URL:		http://guake.org/
-BuildRequires:	glib2
 BuildRequires:	gettext-tools
+BuildRequires:	glib2
 BuildRequires:	intltool >= 0.35
 BuildRequires:	pkgconfig
-BuildRequires:	python3-pygobject3-devel
-BuildRequires:	python3-setuptools
 BuildRequires:	python3-pbr
 BuildRequires:	python3-pip
+BuildRequires:	python3-pygobject3-devel
 BuildRequires:	python3-reno
+BuildRequires:	python3-setuptools
 BuildRequires:	python3-sphinxcontrib-programoutput
 BuildRequires:	python3-wheel
 BuildRequires:	rpm-pythonprov
 BuildRequires:	sed >= 4.0
 Requires(post,postun):	desktop-file-utils
 Requires:	dbus(org.freedesktop.Notifications)
-Requires:	python3-pygobject3
 Requires:	python3-notify2
 Requires:	python3-pbr
+Requires:	python3-pygobject3
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -43,10 +43,10 @@ przycisk aby go wywołać i nacisnąć ponownie by schować.
 
 %prep
 %setup -q
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
+%patch -P 0 -p1
+%patch -P 1 -p1
+%patch -P 2 -p1
+%patch -P 3 -p1
 
 %build
 %{__make}
